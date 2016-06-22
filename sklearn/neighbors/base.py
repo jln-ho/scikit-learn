@@ -166,15 +166,15 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
         if self.metric in ['wminkowski', 'minkowski']:
             self.effective_metric_params_['p'] = effective_p
 
-	# For mahalanobis distance, automatically set the V parameter to the covariance matrix of the training data
-	if self.metric == 'mahalanobis':
+        # For mahalanobis distance, automatically set the V parameter to the covariance matrix of the training data
+        if self.metric == 'mahalanobis':
             if not (self.effective_metric_params_.get('V') or self.effective_metric_params_.get('IV')):
                 if X.shape[1] == 1:
                     cov = np.cov(X.T)
                     icov = np.linalg.inv(cov.reshape((1, 1)))
                     self.effective_metric_params_['VI'] = icov
                 else:
-                    self.effective_metric_params_['V'] = np.cov(X)	
+                    self.effective_metric_params_['V'] = np.cov(X)
 
         self.effective_metric_ = self.metric
         # For minkowski distance, use more efficient methods where available
